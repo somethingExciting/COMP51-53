@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>webifyinput.txtconverted to HTML</title>
+</head>
+<body>
+<h1>This is a file of input to webify</h1>
+It includes simple text, unordered lists, and ordered lists.<br/>
+Here is a link to <a href=www.w3schools.</a>com to click.<br/>
+<h2>Here are some lists to review</h2>
+This is in unordered list of fruit:
+<ul>
+<li>Apples</li>
+<li>Oranges</li>
+<li>Grapes</li>
+</ul>This is an ordered list:
+<ol>
+<li>Item number one</li>
+<li>Item number two</li>
+<li>Item three</li>
+<li>Test list FOUR</li>
+<li>Text for ITEM five</li>
+</ol><h6>Header Level Six</h6>
+This TEXT SHOULD BE IN BOLD and the REST AS WELL.<br/>
+And finally, the last line of the file.<br/>
