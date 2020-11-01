@@ -1,0 +1,40 @@
+# The variable CC specifies which compiler will be used.
+# (because different unix systems may use different compilers)
+CC=gcc
+
+# The variable CFLAGS specifies compiler options
+#   -c :    Only compile (don't link)
+#   -Wall:  Enable all warnings about lazy / dangerous C programming 
+#  You can add additional options on this same line..
+#  WARNING: NEVER REMOVE THE -c FLAG, it is essential to proper operation
+CFLAGS=-c -Wall
+
+# All of the .h header files to use as dependencies
+HEADERS=functions.h
+
+# All of the object files to produce as intermediary work
+OBJECTS=main.o factorial.o output.o
+
+# The final program to build
+EXECUTABLE=factorial_program
+
+# --------------------------------------------
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXECUTABLE)
+
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $<
+
+clean:
+	rm -rf *.o $(EXECUTABLE)
+
+
+This file runs basically the same as the other Makefiles, but it has been reduced to placeholders and variables to indicate which files are being referenced to. In this example, $EXECUTABLE is a variable to hold the file name of the final program to build, in case the name of the file changes. CC also takes the place of gcc and CFLAGS takes place of -c -Wall. The % represents any number of characters that can preceed the character(s) following the %. 
+
+In order to use this file for other labs, just change the values in the the variables and leave the template the same. If other values not already in the program need to be used, declare more variables and add it to the program in an efficient manner. 
+
+
+

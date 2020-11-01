@@ -1,0 +1,20 @@
+all: factorial_program 
+
+factorial_program: main.o factorial.o output.o 
+	gcc main.o factorial.o output.o -o factorial_program 
+
+main.o: main.c 
+	gcc -c main.c 
+
+factorial.o: factorial.c 
+	gcc -c factorial.c 
+
+output.o: output.c 
+	gcc -c output.c 
+
+clean: 
+	rm -rf *.o factorial_program
+
+
+
+When the command "make -f Makefile-2" is entered, the make function compiles the program written in the target path. This target is achieved by describing the desired location inside a file. For example, in this particular command, make compiles the program written in "Makefile-2", which is this file. The "all" in this file refers to the target and everything following it are the dependencies.

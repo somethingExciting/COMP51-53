@@ -1,0 +1,102 @@
+#tcp
+>>> filename = "figure1.png"
+>>> path = "~/Pictures"
+>>> host = "www.google.com"
+>>> request = "From Host: "+host+"\nI want: "+path+"/"+filename+"\nConnection: close\r\n\r\n"
+>>> print(request)
+From Host: www.google.com
+I want: ~/Pictures/figure1.png
+Connection: close
+>>> send_request = bytes(request, 'ascii')
+>>> print(send_request)
+b'From Host: www.google.com\nI want: ~/Pictures/figure1.png\nConnection: close\r\n\r\n'
+>>> request=send_request.decode('ascii')
+>>> print(request)
+From Host: www.google.com
+I want: ~/Pictures/figure1.png
+Connection: close
+>>> response="HTTP accepts the command(coode 200) \nHeader skdfyskljs  \r\n\r\nThe Data: jkijsdfsjf"
+>>> print(response)
+HTTP accepts the command(coode 200) 
+Header skdfyskljs  
+
+The Data: jkijsdfsjf
+>>> byte_response=bytes(response, 'ascii')
+>>> print(byte_response)
+b'HTTP accepts the command(coode 200) \n Header skdfyskljs  \r\n\r\n The Data: jkijsdfsjf'
+#method 1
+>>> response=byte_response.decode('ascii')
+>>> response.split("\r\n\r\n",2)
+['HTTP accepts the command(coode 200) \n Header skdfyskljs  ', ' The Data: jkijsdfsjf']
+>>> header = response[0]
+>>> data = response[1]
+>>> header
+>>> #method 2
+>>> [header, data] = byte_response.split(b"\r\n\r\n")
+>>> #method 3
+>>> [header, data] = byte_response.split(bytes("\r\n\r\n",'ascii'), 2)
+
+
+
+#IPv4 & IPv6
+>>> bytearray()
+bytearray(b'')
+>>> raw_string=bytearray()
+>>> raw_string.append(0xfe) #append fe
+>>> raw_string.append(0x53) 
+>>> raw_bytes.append(0x02) 
+>>> raw_bytes.append(0x01) 
+>>> raw_bytes.append(0x20) 
+>>> raw_bytes.append(0x00) 
+>>> raw_bytes.append(0x01) 
+>>> raw_bytes.append(0x00) 
+>>> raw_bytes.append(0x00) 
+>>> raw_bytes.append(0x00) 
+>>> raw_bytes.append(0x00) 
+>>> raw_bytes 
+bytearray(b'\xfeS\x02\x01 \x00\x01\x00\x00\x00\x00')
+>>> qname = "engineering.pacific.edu"
+>>> raw_string=bytearray()
+>>> domain_list = qname.split('.', 3)
+>>> domain_list[0]
+'engineering'
+>>> for items in domain_list:
+...     raw_string.append(len(items))
+...     bytes(items)
+...     raw_string = raw_string + items
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+TypeError: string argument without an encoding
+>>> raw_string
+bytearray(b'\x0b\x07\x03\x0b')
+>>> message = bytearray()
+>>> message.append(1024)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: byte must be in range(0, 256) #value is too large to 
+>>> import struct #allows the creation of numbers that utilize more than one byte 
+>>> val1 = 50
+>>> val2 = 1024
+>>> raw_bytes = struct.pack("BH", val1, val2) 
+#B=int of 1byte
+#H=int of 2bytes
+#L=int of 3bytes
+#Q=int of 4bytes
+>>> print(raw_bytes)
+b'2\x00\x00\x04'
+>>> (val1, val2) = struct.unpack("BH", raw_bytes)
+>>> print(raw_bytes)
+b'2\x00\x00\x04'
+>>> (val1, val2) = struct.unpack("BH", raw_bytes)
+>>> raw_bytes = struct.pack("!BH", val1, val2) #packs as big endian format
+>>> print(raw_bytes)
+b'2\x04\x00'
+#computer is little endian (x86) format
+#dns protocol is big endian format
+>>> bytestring = bytes(qname, 'ascii')
+>>> struct.pack('!23s', bytestring)
+b'engineering.pacific.edu'
+
+ 
+
