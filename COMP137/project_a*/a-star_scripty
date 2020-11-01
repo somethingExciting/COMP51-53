@@ -1,0 +1,10 @@
+#!/bin/bash
+
+gcc -g -Wall -fopenmp -o a-star a-star.c -lm -fno-stack-protector
+
+for i in {0..8}
+do
+	echo "Running a-star with 2^$i threads"
+	./a-star 100 $((2**i)) 
+	echo -e "\n"
+done

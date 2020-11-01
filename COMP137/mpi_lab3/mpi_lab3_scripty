@@ -1,0 +1,10 @@
+#!/bin/bash 
+
+mpicc -g -Wall -o mpi_lab3 mpi_lab3.c 
+
+for i in {2..6}
+do 
+	echo "Running mpi_lab3 v1/v2 on 2^$i"
+	./mpi_lab3 #input stuff here, ex. $((2**i))
+	echo -e "\n"
+done
