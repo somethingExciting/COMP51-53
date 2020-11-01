@@ -1,0 +1,161 @@
+#include <stdio.h>
+
+/* 6.16
+Show that, if the wait() and signal() semaphore operations are not executed
+atomically (means that a process is non-interruptable), then mutual exclusion may be violated.
+
+Mutual exclusion (mutex) - if one passes, another cannot at the same time
+^ we are looking for an instance that there can be 2 at once
+mutex variable is shared between processes, therefore it is a critical section; 
+critical section - shared between processes (in above example, the critical section is S)
+*/
+wait(S) {
+	while S <= 0 
+	; // no-op
+	S--;
+}
+
+signal(S) {
+	S++;
+}
+
+/*
+types of semaphores
+1. mutex -> binary
+2. full -> counting 
+3. empty -> N (number of buffers, each holdind one value); check empty
+shared data btwn semaphores:
+1. mutex -> lock/unlock
+2. wrt -> updating the data
+3. readcount -> how many processes are reading the data, updates every time a reader comes in, when entering-need to make sure there is a writer, when no one is writing then you can read the data, when leaving decrement the read counter
+*/
+Semaphore mutex = 1; //shared variable
+//P_0
+wait(mutex);
+//critical section 
+signal(mutex);
+
+//P_1
+wait(mutex);
+//critical section 
+signal(mutex);
+
+/* ANSWER
+If the wait() and signal() sempahore operations are not executed atomically, then these processes can be interrupted. Since we want each process to finish completely 
+
+
+signal - "reset" to an initial state after a process is completed so that other processes are able to go
+wait - waiting while a process is being executed or waiting for a process to be sent to it
+
+
+ 6.18
+Show how to implement the wait() and signal() semaphore operations in the 
+multiprocessor environments using the TestAndSet() instruction. The solutions 
+should exhibit minimal busy waiting (remove the while loop for busy waiting).
+Your solution should:
+1. Identify critical sections in the wait and signal functions
+2. Use TestAndSet to protect the critical sections in the wait and signal functions
+3. Remove while loops using waitlists
+*/
+while(TestAndSet(&lock))
+; //do nothing
+//critical section
+lock = FALSE;
+//remainder section 
+
+
+
+int lock = 0;
+wait(S) {
+	while(TestAndSet(&lock))
+		; // do nothing
+	while(S <= 0)
+		; //no-op 
+	S--;
+
+	lock = FALSE; 
+}
+
+signal(S) {
+	while(TestAndSet(&lock))
+		; //do nothing 
+	S++;
+
+	lock = FALSE;
+}
+//^^remove all while loops from this statement
+
+
+
+int lock = 0;
+wait(S) {
+	while(TestAndSet(&lock))
+		; // do nothing
+	S->value--;
+	if(S->value < 0) {
+		//add this process to S->list;
+		lock = FALSE;
+		block();	
+	}		
+	else {
+		lock = FALSE; 
+	}
+}
+
+signal(S) {
+	while(TestAndSet(&lock))
+		; //do nothing 
+	S->value++;
+	if(S->value <= 0) {
+		//remove a process P from S->list; 
+		wakeup(P);
+	}
+
+	lock = FALSE;
+}
+//^^removing second while loop (S <= 0)
+
+
+
+int lock = 0;
+wait(semaphore *S) {
+	if(TestAndSet(&lock) == 1) {
+		//add process to lock->list
+		block();
+	}
+	S->value--;
+	if(S->value < 0) {
+		//add this process to S->list;
+		if(lock->list is not empty) {
+			//wake up the first process in lock->list
+		} else {
+			lock->value = 0;
+		}
+		block();	
+	}		
+	else {
+		if(lock->list is not empty) {
+			//wake up the first process in lock->list 
+		} else {
+			lock->value = 0;
+		} 
+	}
+}
+
+signal(semaphore *S) {
+	if(TestAndSet(&lock) == 1) {
+		//add process to lock->list 
+		block();
+	}
+	S->value++;
+	if(S->value <= 0) {
+		//remove a process P from S->list; 
+		wakeup(P);
+	}
+	if(lock->list is not empty) {
+		//wake up the first process in lock->list
+	} else {
+		lock->value = 0;
+	}
+}
+//^^removing the TestAndSet(&lock) while loop (busy waiting loop)

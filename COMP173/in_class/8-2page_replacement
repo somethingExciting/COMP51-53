@@ -1,0 +1,42 @@
+/* 8.31
+A page-replacement algorithm should minimize the number of page faults. We can achieve this minimization by distributing heavily used pages evenly over all of memory rather than having them compete for a small number of page frames. We can associate with each page frame a counter of the number of pages associated with that frame. Then, to repalce a page, we can search for the page frame with the smallest counter.
+
+a. Define a page-replacement algorithm using this basic idea. Specifically address these problems:
+ - What is the initial value of the counters?
+	the number of times the page is referenced
+	0
+ - When are the counters increased?
+	whenever a unique page is loaded into a frame
+ - When are the counters decreased?
+	when a page no longer needs to be used
+ - How is the page to be replaced selected?
+	has the smallest counter
+
+b. How many page faults occur for your algorithm for the following reference string with four page frames? Show the process.
+1, 2, 3, 4, 5, 3, 4, 1, 6, 7, 8, 7, 8, 9, 7, 8, 9, 5, 4, 5, 4, 2
+number	frequency/counter
+1				2
+2				2
+3				2
+4				4
+5				3
+6				1
+7				3
+8				3
+9				2
+1, 2, 3, 4, 5, 3, 4, 1, 6, 7, 8, 7, 8, 9, 7, 8, 9, 5, 4, 5, 4, 2
+1  1  1  1  5		 5  5  5  5		   9		   5  5		   5
+   2  2  2  2		 1  1  1  8		   8		   8  8		   2
+	  3  3  3		 3  6  7  7		   7		   7  7		   7
+		 4  4		 4  4  4  4		   4		   4  4		   4
+number of page faults: 12
+
+c.What is the minimum number of page faults for an optimal page-replacement strategy for the reference string in part b with four page frames?
+1, 2, 3, 4, 5, 3, 4, 1, 6, 7, 8, 7, 8, 9, 7, 8, 9, 5, 4, 5, 4, 2
+1  1  1  1  1		    6  6  8		   8		      4		   4
+   2  2  2  5		    5  5  5		   5		      5		   5
+	  3  3  3		    3  7  7		   7		      7		   2
+		 4  4		    4  4  4		   9		      9		   9
+minimum number of page faults: 11
+
+*/

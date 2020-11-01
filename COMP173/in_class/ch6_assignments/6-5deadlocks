@@ -1,0 +1,26 @@
+/*
+A single-lane bridge connects the two Vermont villages if North Tunbridge and South Tunbridge. Farmers in the two villages use this bridge to deliver their produce to the neighboring town. The bridge can become deadlocked if both a northbouond and a southbound farmer get on the bridge at the same time (Vermont farmers are stubborn and are unable to back up). Using semaphores, design an algorithm that prevents deadlock. Initially, do not be concerned about starvation (the situation in which northbound farmers prevent southbound farmers from using the bridge, and vice versa).  
+*/
+ 
+semaphore ok_to_cross = 1;
+
+void enter_bridge() {
+	ok_to_cross.wait();
+}
+
+void exit_bridge() {
+	ok_to_cross.signal();
+}
+
+/*
+How deadlock can occur:
+Mutual Exclusion - only one process at a time can use a resource
+Hold and Wait - holding at least one resource, but waiting for more that are held by other resources
+Circular Wait - have to wait for the previous process' resources before executing
+No preemption - a resource can be there is something in the way, but won't just push it out of the way
+
+How to handle deadlocks:
+1. system will never enter a deadlock state 
+2. allow the system to enter a deadlock state, then recover
+3. ignore it (most OS do this) 
+*/

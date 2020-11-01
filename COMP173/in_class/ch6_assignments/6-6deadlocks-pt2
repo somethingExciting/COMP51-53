@@ -1,0 +1,25 @@
+/*
+There is a picture that shows a square of traffic, where cars are taking up all 4 roads
+
+a) Show that the four necessary conditions for deadlock hold in this example.
+Mutual Exclusion - only one car can be in a spot at once
+Hold and Wait - have to wait for at least one car to move before moving
+Circular Wait - have to wait for traffic to go around before other cars can move
+No preemption - there is another car in the way, you can't just push it out of the way
+
+b) State a simple rule for avoiding deadlocks in this system
+Avoidance
+*/
+
+
+/*
+safe state = no deadlocks -> waiting for resources from prior process 
+unsafe state = possible deadlocks 
+avoidance = ensurance that the system will never enter an unsafe state
+
+Avoidance:
+single instance resource type -> resource-allocation graph
+ - requesting from another process with a claim edge
+multiple instance resource type -> banker's algorithm
+ - request resources and wait, then return them in a finite amt of time
+*/

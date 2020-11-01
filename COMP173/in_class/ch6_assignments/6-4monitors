@@ -1,0 +1,54 @@
+/* 6.33
+The decrease_count function in the previous exercise currently returns - if suffiecient resoures are available and -1 otherwise. This leads to awkward programming for a process that wishes to obtain a number of resources: 
+*/
+while (decrease_count(count) == -1) 
+;
+
+/*
+Rewrite the resource-manager code segment using a monitor and condition variables so that the decrease_count() function suspends the process until sufficient resources are available. This will allow a process to invoke decrease_count() by simply calling
+decrease_count(count);
+The process will return from this function call only when sufficient resources are available.
+*/
+
+//example:
+monitor ResourceAllocator {
+	boolean busy;
+	condition x;
+	void acquire(int time) {
+		if (busy) {
+			x.wait(time);
+		}
+		busy = TRUE;
+	}
+	void release() {
+		busy = FALSE;
+		x.signal();
+	}
+	initialization_code() {
+		busy = FALSE;
+	}
+} 
+
+#define MAX_RESOURCES = 5 
+
+monitor resources {
+	int available _resources;
+	condition resources_avail;
+
+	int decrease_count(int count) {
+		while(available_resources < count) {
+			resources_avail.wait();
+		}
+		available_resources -= count;
+	}
+
+	int increase_count(int count) {
+		available_resources += count;
+		resources_avail.signal();
+	}
+
+	initialization_code() {
+		available_resources = MAX_RESOURCES;
+	}
+}
+

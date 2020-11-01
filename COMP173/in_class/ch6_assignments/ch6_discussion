@@ -1,0 +1,11 @@
+/*
+Consider a computer system that runs 5,000 jobs per month and has no deadlock-prevention or deadlock-avoidance scheme. Deadlocks occur about twice per month, and the operator must terminate and rerun about 10 jobs per deadlock. Each job is worth about $2 (in CPU time), and the jobs terminated tend to be about half-done when they are aborted. A systems programmer has estimated that a deadlock-avoidance algorithm (like banker's algorithm) could be be installed in the system with an increase in the average execution time per job of about 10%. Since the machine currently has 30% idle time, all 5,000 jobs per month could still be run, although turnaround time would increase by about 20% on average.
+
+a) What are the arguments for installing the deadlock-avoidance algorithm?
+ - ensure that a deadlock never occurs
+ - despite longer turnaround time, the 5,000 jobs will still run
+
+b) What are the arguments against installing the deadlock-avoidance algorithm?
+ - deadlocks occur infrequently and cost little to fix when they do occur
+*/
+

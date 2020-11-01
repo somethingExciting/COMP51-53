@@ -1,0 +1,11 @@
+/*
+Consider the folliwing resource-allocation policy. Requests for and releases of resources are allowed at any time. If a request for resources cannot be satisfied because the resources are not available, then we check any processes that are blocked waiting for resources. If a blocked process has the desired resources, then these resouorces are taken away from it and given to the requesting process. The vector of the resources for which the blocked process us waiting is inccreased to include the resources that were taken away.
+For example, consider a system with three resource types and the vector Available initialized to (4,2,2). If a process P_0 asks for (2,2,1), it gets them. If P_1 asks for (1,0,1), it gets them. Then, if P_0 asks for (0,0,1), it is blocked (resource not available). If P_2 now asks for (2,0,0), it gets the available one (1,0,0) and one that was allocated to P_0 (since P_0 is blocked). P_0's Allocation vector goes down to (1,2,1), and its Need vector goes up to (1,0,1).  
+
+1. Can deadlock occur? If you answer "yes," give an example. Ifyou answer "no", specify which necessary condition cannot occur.
+Deadlock cannot occur unless the 4 conditions are met and in this example, preemption is not met, therefore deadlock is not possible in this case.
+
+2. Can indefinite blocking occur? Explain your answer. 
+Yes
+
+*/

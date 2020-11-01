@@ -1,0 +1,5 @@
+mirio.exe 6
+deku.exe 4
+croft.exe 7
+shadow.exe 3
+bbal.exe 9

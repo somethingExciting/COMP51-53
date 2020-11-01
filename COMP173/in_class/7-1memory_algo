@@ -1,0 +1,22 @@
+7.11
+Given 5 memory partitions of 100KB, 500KB, 200KB, 300KB, and 600KB (in order), how would the first-fit, best-fit, and worst-fit algorithms place process of 212KB, 417KB, 112KB, and 426KB (in order)?
+First-fit:
+212KB is put in 500KB partition
+417KB is put in 600KB partition
+112KB is put in 288KB partition (new partition 288KB = 500KB - 212KB)
+426KB must wait
+
+Best-fit:
+212KB is put in 300KB partition
+417KB is put in 500KB partition
+112KB is put in 200KB partition
+426KB is put in 600KB partition
+
+Worst-fit:
+212KB is put in 600KB partition
+417KB is put in 500KB partition
+112KB is put in 388KB partition (new partition 388KB = 600KB - 212KB)
+426KB must wait
+
+In this example, best-fit turns out to be the best.
+

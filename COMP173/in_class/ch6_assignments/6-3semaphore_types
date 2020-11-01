@@ -1,0 +1,73 @@
+/* 6.15
+Servers can be designed to limit the number of open connections. For example, a server may wish to have only N socket connections at any point in time. As soon as N connections are made, the server will not accept another incoming connection until an existing connection is released. Explain how semaphores can be used by a server to limit the number of concurrent connections. 
+*/
+
+//use a counting semaphore!  -- counts, but only increases/decreases by 1 
+Semaphore connection = N
+//new connection; if it is greater than N, then it automatically blocks a process
+wait(connection);
+//release existing connection, until signal is called or until "busywaiting" is done 
+signal(connection); 
+
+
+
+/* 6.32 
+ex - a number of licenses are given to a software package that indicates the number of applications that can run at the same time; when  the app is started the license count is decremented and when it terminates the license count is incremented; if all licenses are in use, then requests to start the app are denied until some processes are terminated and the licenses are returned 
+*/
+#define MAX_RESOURCES 5
+int available_resources = MAX_RESOURCES;
+/*
+decrease available_resources by count resources 
+return 0 if sufficient resources are available 
+otherwise return -1
+*/
+int decrease_count(int count) {
+	if(available_resources < count) {
+		return -1;
+	}
+	else {
+		available_resources -= count;
+	}
+	return 0;
+}
+
+/*
+When a process wants to return a number of resources, it calls the increase_count() function:
+increase available_resources by count
+*/
+int increase_count(int count) {
+	available_resources += count;
+
+	return 0;
+}
+
+/*
+The preceeding program segment produces a race condition. Answer the following:
+1. Identify the data involved in the race condition.
+available resources 
+2. Identify the location(s) n the code where the race condition occurs.
+anywhere where the available_resources are accessed without being protected
+3. Using a semaphore, fix the race condition. It is OK to modify the decrease_count() funciton so that the calling process is blocked until sufficient resources are availible
+Use a binary semaphore(locks)
+remove the if else statements since return -1 is never reached, since available_resources should never be less than count
+changes to the code to fix the race condition is shown below  
+*/
+Semaphore mutex = 1;
+int decrease_count(int count) {
+ 	while(available_resources < count) {
+		wait(mutex);
+	}
+	available_resources -= count;
+	signal(mutex);
+
+	return 0;
+}
+
+int increase_count(int count) {
+	wait(mutex);
+	available_resources += count;
+	signal(mutex);
+
+	return 0;
+}
+
